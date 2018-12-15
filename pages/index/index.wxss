@@ -1,0 +1,27 @@
+/**index.wxss**/
+page{
+  background-image: url(http://img5.imgtn.bdimg.com/it/u=1343627914,633796447&fm=26&gp=0.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
