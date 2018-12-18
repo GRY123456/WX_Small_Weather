@@ -5,13 +5,13 @@
   <view class="nowWeather">
     <view class="city w">{{city}} {{district}}</view>
     <view class="road w">{{street}}</view>
-    <view class="temp w b">{{tmp}}℃</view>
-    <view class="weather w">{{txt}}</view>
+    <view class="temp w b">{{tmp}}°</view>
+    <view class="weather w">{{txt}} | 空气 {{qlty}}</view>
   </view>
  
   <view class="weahterDetail">
     <view class="">
-      <view class="w center">风向：{{dir}}</view>
+      <view class="w center">{{dir}}</view>
       <view wx:if="{{sc == '微风'}}" class="w b center f50">微风</view>
       <view wx:else class="w b center f50">{{sc}}级</view>
     </view>
@@ -23,7 +23,7 @@
     <view class="l"></view>
     <view class="">
       <view class="w center">体感温度</view>
-      <view class="w b center f50">{{fl}}℃</view>
+      <view class="w b center f50">{{fl}}°</view>
     </view>
   </view>
  
@@ -32,10 +32,11 @@
  
 <view wx:for="{{daily_forecast}}" wx:for-index="i" wx:for-item="item">
   <view class="hor forcast">
-    <view class="center">{{item.date}}</view>
+    <view class="center">{{day[i]}}</view>
     <view class="hor">
-      <view class="center">{{item.dayweather}}</view>
+      <image class="img" src="../../assets/icons/{{item.cond.code_d}}.png"></image>
+      <view class="center">{{item.cond.txt_d}}|{{qlty}}</view>
     </view>
-    <view class="center">{{item.nighttemp}}℃~{{item.daytemp}}℃</view>
+    <view class="center">{{item.tmp.min}}°/ {{item.tmp.max}}°</view>
   </view>
 </view>

@@ -1,14 +1,19 @@
+//index.js
+//获取应用实例
 var app = getApp()
-var day = ["今天", "明天", "后天", "大后天"];
+var day = ["今天", "明天", "后天"];
 Page({
   data: {
     day: day,
   },
+
   onLoad: function () {
     console.log('onLoad')
     var that = this
+
     that.getLocation();
   },
+
   //获取经纬度方法
   getLocation: function () {
     var that = this
@@ -18,16 +23,18 @@ Page({
         var latitude = res.latitude
         var longitude = res.longitude
         console.log("lat:" + latitude + " lon:" + longitude);
+
         that.getCity(latitude, longitude);
       }
     })
   },
+
   //获取城市信息
   getCity: function (latitude, longitude) {
-    var that = this;
+    var that = this
     var url = "https://api.map.baidu.com/geocoder/v2/";
     var params = {
-      ak: "ILbXcAXN5w1Xmc7abekEQHYPpvESNjnM",
+      ak: "1G50Crx5QIKWy5o4R5Q1ONFSgmFIxfIR",
       output: "json",
       location: latitude + "," + longitude
     }
@@ -38,11 +45,13 @@ Page({
         var city = res.data.result.addressComponent.city;
         var district = res.data.result.addressComponent.district;
         var street = res.data.result.addressComponent.street;
+
         that.setData({
           city: city,
           district: district,
           street: street,
         })
+
         var descCity = city.substring(0, city.length - 1);
         that.getWeahter(descCity);
       },
@@ -50,55 +59,43 @@ Page({
       complete: function (res) { },
     })
   },
+
   //获取天气信息
   getWeahter: function (city) {
     var that = this
-    var url = "https://restapi.amap.com/v3/weather/weatherInfo"
-    var parameters = {
+    var url = "https://free-api.heweather.com/v5/weather"
+    var params = {
       city: city,
-      key: "a4debc0315ec7e7ec051f846e8e3b367",
-      extensions: "base"
+      key: "894fc2a749104d679fa022c3e71afe83"
     }
     wx.request({
       url: url,
-      data: parameters,
+      data: params,
       success: function (res) {
-        var tmp = res.data.lives[0].temperature;
-        var txt = res.data.lives[0].weather;
-        var dir = res.data.lives[0].winddirection;
-        var sc = res.data.lives[0].windpower;
-        var hum = res.data.lives[0].humidity;
-        var fl = res.data.lives[0].temperature;
+        var tmp = res.data.HeWeather5[0].now.tmp;
+        var txt = res.data.HeWeather5[0].now.cond.txt;
+        var code = res.data.HeWeather5[0].now.cond.code;
+        var qlty = res.data.HeWeather5[0].aqi.city.qlty;
+        var dir = res.data.HeWeather5[0].now.wind.dir;
+        var sc = res.data.HeWeather5[0].now.wind.sc;
+        var hum = res.data.HeWeather5[0].now.hum;
+        var fl = res.data.HeWeather5[0].now.fl;
+        var daily_forecast = res.data.HeWeather5[0].daily_forecast;
         that.setData({
-         tmp: tmp,
-         txt: txt,
-         dir: dir,
+          tmp: tmp,
+          txt: txt,
+          code: code,
+          qlty: qlty,
+          dir: dir,
           sc: sc,
           hum: hum,
           fl: fl,
-        })
-      },
-      fail: function (res) { },
-      complete: function (res) { },
-    })
-
-    var parameters = {
-      city: city,
-      key: "a4debc0315ec7e7ec051f846e8e3b367",
-      extensions: "all"
-    }
-    wx.request({
-      url: url,
-      data: parameters,
-      success: function (res) {
-        var daily_forecast = res.data.forecasts[0].casts;
-        console.log(res);
-        that.setData({
-          daily_forecast: daily_forecast,
+          daily_forecast: daily_forecast
         })
       },
       fail: function (res) { },
       complete: function (res) { },
     })
   }
+
 })
